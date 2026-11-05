@@ -25,8 +25,8 @@
 //System.out.println(var);                                  // 문자열 1개 출력하는 예제
 //System.out.println(AB);                                    // long 변수 1개 출력하는 예제
 /////////////////////////////////////////////////////////////////////////////////////////////
-import java.util.Scanner;
-import java.io.FileInputStream;
+import java.util.*;
+import java.io.*;
 
 /*
    사용하는 클래스명이 Solution 이어야 하므로, 가급적 Solution.java 를 사용할 것을 권장합니다.
@@ -43,14 +43,22 @@ class Solution
            따라서 테스트를 수행할 때에는 아래 주석을 지우고 이 메소드를 사용하셔도 좋습니다.
            단, 채점을 위해 코드를 제출하실 때에는 반드시 이 메소드를 지우거나 주석 처리 하셔야 합니다.
          */
-        //System.setIn(new FileInputStream("res/input.txt"));
+        // System.setIn(new FileInputStream("res/input.txt"));
 
         /*
            표준입력 System.in 으로부터 스캐너를 만들어 데이터를 읽어옵니다.
          */
-        Scanner sc = new Scanner(System.in);
-        int T;
-        T=sc.nextInt();
+        
+        // Scanner 대신 BufferedReader 사용
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // 출력 결과를 모아두는 객체
+        StringBuilder sb = new StringBuilder();
+
+        // 테스트 케이스 개수 입력
+        int T = Integer.parseInt(br.readLine());
+
+
         /*
            여러 개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
         */
@@ -58,12 +66,55 @@ class Solution
         for(int test_case = 1; test_case <= T; test_case++)
         {
 
-            /////////////////////////////////////////////////////////////////////////////////////////////
-            /*
-                 이 부분에 여러분의 알고리즘 구현이 들어갑니다.
-             */
-            /////////////////////////////////////////////////////////////////////////////////////////////
+            // 달팽이 배열 크기 입력
+            int N = Integer.parseInt(br.readLine());
 
+            // N x N 배열 생성
+            int[][] arr = new int[N][N]; // 이렇게 하면 기본값 0이 채워짐
+            
+
+            // 달팽이 숫자 채우기 알고리즘 구현
+            int number = 1;
+            int maxNumber = N*N;
+
+            int x = 0;
+            int y = 0;
+
+            // 우 / 하 / 좌 / 상
+            int[] dxArr = {1, 0, -1, 0};
+            int[] dyArr = {0, 1, 0, -1};
+
+            int direction = 0;
+
+            while(number <= maxNumber){
+                arr[y][x] = number;
+                number++;
+
+                int dx = dxArr[direction % 4];
+                int dy = dyArr[direction % 4];
+
+                if(dx+x >= N || dy+y >= N || dx+x < 0 || dy+y < 0 || arr[y+dy][x+dx] != 0){
+                    direction++;
+                    dx = dxArr[direction % 4];
+                    dy = dyArr[direction % 4];
+                }
+                x += dx;
+                y += dy;
+            }
+
+            // SWEA 출력 형식
+            sb.append("#").append(test_case).append("\n");
+
+            for(int i=0; i<N; i++){
+                for(int j=0; j<N; j++){
+                    if(j > 0){
+                        sb.append(" ");
+                    }
+                    sb.append(arr[i][j]);
+                }
+                sb.append("\n");
+            }
         }
+        System.out.print(sb);
     }
 }

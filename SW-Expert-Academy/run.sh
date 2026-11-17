@@ -45,6 +45,6 @@ if diff -w "$actual" output.txt > /dev/null; then
   echo "PASS (${ms}ms, JVM 기동 포함)"
 else
   echo "FAIL — 왼쪽: 내 출력 / 오른쪽: 정답"
-  diff -w "$actual" output.txt | head -20
+  diff -w "$actual" output.txt
   exit 1
 fi

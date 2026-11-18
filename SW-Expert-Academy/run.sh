@@ -41,10 +41,10 @@ if [ ! -s output.txt ]; then
   exit 0
 fi
 
-if diff -w "$actual" output.txt > /dev/null; then
+if diff -wB "$actual" output.txt > /dev/null; then
   echo "PASS (${ms}ms, JVM 기동 포함)"
 else
-  echo "FAIL — 왼쪽: 내 출력 / 오른쪽: 정답"
-  diff -w "$actual" output.txt
+  echo "FAIL (${ms}ms) — 왼쪽: 내 출력 / 오른쪽: 정답  (| = 다름, < > = 한쪽에만 있음)"
+  diff -y -wB --width=60 "$actual" output.txt
   exit 1
 fi

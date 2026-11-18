@@ -77,6 +77,6 @@ class Solution
             sb.append("#").append(test_case).append(" ").append(count).append("\n");
 
         }
-        System.out.println(sb);
+        System.out.print(sb);
     }
 }
